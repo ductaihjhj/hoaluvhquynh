@@ -4,7 +4,7 @@
 
 const CONFIG = {
   PASSWORD: 'ilovehquynhh', // Mật khẩu (không phân biệt hoa thường)
-  OPEN_SOUND: 'https://drive.google.com/uc?export=download&id=1PSvFVUId6xe_Xra935lTirejcaZWGRvC'
+  OPEN_SOUND: 'https://cdn.pixabay.com/audio/2025/10/16/audio_c04cdbb1f6.mp3'
 };
 
 // DOM Elements
@@ -68,6 +68,13 @@ window.addEventListener('load', async () => {
     }
   }
 });
+let vol = 0;
+music.volume = 0;
+const fade = setInterval(() => {
+  vol += 0.05;
+  if (vol >= 0.6) { clearInterval(fade); }
+  music.volume = vol;
+}, 200);
 
 // ===========================
 // MODALS
