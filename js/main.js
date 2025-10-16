@@ -3,7 +3,7 @@
 // ===========================
 
 const CONFIG = {
-  PASSWORD: 'ilovehquynh', // Mật khẩu (không phân biệt hoa thường)
+  PASSWORD: 'ilovehquynhh', // Mật khẩu (không phân biệt hoa thường)
   OPEN_SOUND: 'https://drive.google.com/uc?export=download&id=1PSvFVUId6xe_Xra935lTirejcaZWGRvC'
 };
 
