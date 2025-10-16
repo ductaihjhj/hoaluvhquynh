@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>I Love Hương Quỳnh</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- GSAP -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/ScrollTrigger.min.js"
+      defer
+    ></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600;700&family=Quicksand:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <canvas
+      id="petalsCanvas"
+      class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"
+    ></canvas>
+    <div class="light-overlay"></div>
+
+    <!-- Music -->
+    <div class="music-control">
+      <button id="musicToggle" class="music-btn" aria-label="Play/Pause Music">
+        <i class="fas fa-music"></i>
+        <span class="music-text">Play</span>
+      </button>
+    </div>
+    <audio id="bgMusic" loop>
+      <source
+        src="https://cdn.pixabay.com/audio/2022/03/15/audio_4c79e0c5b0.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+
+    <!-- Main -->
+    <div class="main-container">
+      <header class="header">
+        <div class="logo-container">
+          <i class="fas fa-spa header-icon"></i>
+        </div>
+        <h1 class="header-title">Happy Vietnamese Women's Day</h1>
+      </header>
+
+      <main class="main-content">
+        <div class="greeting-container">
+          <h2 class="main-greeting" id="mainGreeting">
+            Chúc Mừng Ngày
+            <span class="gradient-text">Phụ Nữ Việt Nam</span>
+            20/10
+          </h2>
+          <p class="sub-greeting">Gửi đến người con gái tuyệt vời nhất :3</p>
+        </div>
+
+        <div class="flowers-garden">
+          <div class="flower flower-1">🌸</div>
+          <div class="flower flower-2">🌺</div>
+          <div class="flower flower-3">🌼</div>
+          <div class="flower flower-4">🌻</div>
+          <div class="flower flower-5">🌷</div>
+          <div class="flower flower-6">🌹</div>
+        </div>
+
+        <div class="letter-container">
+          <button
+            class="letter-btn"
+            id="letterBtn"
+            aria-label="Open Secret Letter"
+          >
+            <i class="fas fa-envelope"></i>
+            <span class="letter-text">Mở Thư Bí Mật</span>
+            <div class="sparkles">
+              <span>✨</span><span>✨</span><span>✨</span>
+            </div>
+          </button>
+        </div>
+
+        <div class="deco-circles">
+          <div class="circle circle-1"></div>
+          <div class="circle circle-2"></div>
+          <div class="circle circle-3"></div>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <p class="footer-text">
+          tình iu cụa ducwtaif cho cưg <span class="heart">💖</span>
+          <span class="neon-text"> hquynh </span>
+        </p>
+      </footer>
+    </div>
+
+    <!-- Password Modal -->
+    <div class="modal" id="passwordModal">
+      <div class="modal-content password-modal">
+        <button class="close-btn" id="closePasswordModal">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-icon"><i class="fas fa-lock"></i></div>
+        <h3 class="modal-title">Nhập Mật Khẩu</h3>
+        <p class="modal-subtitle">Để mở lá thư bí mật 💌</p>
+        <div class="password-input-container">
+          <input
+            type="password"
+            id="passwordInput"
+            class="password-input"
+            placeholder="Nhập mật khẩu..."
+            autocomplete="off"
+          />
+          <button class="toggle-password" id="togglePassword">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+        <p class="password-hint">Gợi ý: 2010love ❤️</p>
+        <p class="error-message" id="errorMessage"></p>
+        <button class="submit-btn" id="submitPassword">
+          <i class="fas fa-key"></i><span>Mở Thư</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Letter Modal -->
+    <div class="modal" id="letterModal">
+      <div class="modal-content letter-modal">
+        <button class="close-btn" id="closeLetterModal">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="letter-paper">
+          <div class="letter-glow"></div>
+          <div class="letter-header">
+            <div class="letter-decoration">
+              <i class="fas fa-heart"></i><i class="fas fa-heart"></i
+              ><i class="fas fa-heart"></i>
+            </div>
+            <h3 class="letter-title">Thư Chúc Mừng 20/10</h3>
+            <div class="letter-decoration">
+              <i class="fas fa-heart"></i><i class="fas fa-heart"></i
+              ><i class="fas fa-heart"></i>
+            </div>
+          </div>
+          <div class="letter-body">
+            <p class="letter-greeting">Gửi đến người phụ nữ tuyệt vời,</p>
+            <div class="letter-content">
+              <p>Trong khu vườn của cuộc đời, bạn là đóa hoa rực rỡ nhất...</p>
+              <p>
+                Ngày 20/10 này, hãy để mình được tỏa sáng như chính bản chất của
+                bạn...
+              </p>
+              <p class="letter-quote">
+                <em
+                  >"Phụ nữ là những đóa hoa,<br />Dù là hoa gì cũng đẹp,<br />Vì
+                  họ biết nở rộ bất chấp mọi mùa."</em
+                >
+              </p>
+              <p>
+                Chúc bạn luôn hạnh phúc, xinh đẹp và thành công trong mọi điều
+                bạn làm.
+              </p>
+            </div>
+            <div class="letter-signature">
+              <p>Với tất cả tình yêu thương,</p>
+              <p class="signature-name">Vườn Hoa 20/10 🌸</p>
+            </div>
+          </div>
+          <div class="paper-texture"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/particles.js" defer></script>
+    <script src="js/main.js" defer></script>
+  </body>
+</html>
