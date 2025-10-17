@@ -1,9 +1,9 @@
 // ===========================
-// Main JavaScript - Vườn Hoa 20/10 (Auto-play Drive Music)
+// Main JavaScript - Vườn Hoa 20/10 (Auto-play + Modal Fixed)
 // ===========================
 
 const CONFIG = {
-  PASSWORD: 'ilovehquynhh', // Mật khẩu (không phân biệt hoa thường)
+  PASSWORD: 'ilovehquynhh',
   OPEN_SOUND: 'https://cdn.pixabay.com/audio/2025/10/16/audio_c04cdbb1f6.mp3'
 };
 
@@ -23,16 +23,16 @@ const el = {
 };
 
 // ===========================
-// MUSIC CONTROL + AUTO-PLAY
+// MUSIC CONTROL
 // ===========================
 let isPlaying = false;
-let hasTriedAutoPlay = false;
 
 const bgMusic = el.bgMusic || new Audio(CONFIG.OPEN_SOUND);
 bgMusic.loop = true;
-bgMusic.volume = 0.5;
 bgMusic.crossOrigin = "anonymous";
+bgMusic.volume = 0.5;
 
+// Toggle button
 el.musicToggle.addEventListener('click', toggleMusic);
 
 async function toggleMusic() {
@@ -45,7 +45,7 @@ async function toggleMusic() {
       await bgMusic.play();
       el.musicToggle.classList.add('playing');
       el.musicToggle.querySelector('.music-text').textContent = 'Pause';
-    } catch (err) {
+    } catch {
       showNotification('Hãy chạm vào màn hình để bật nhạc 🎵', 'error');
     }
   }
@@ -53,7 +53,7 @@ async function toggleMusic() {
 }
 
 // ===========================
-// SAFE AUTO-PLAY MUSIC (no modal interference)
+// AUTO-PLAY SAFE + FADE-IN
 // ===========================
 window.addEventListener('DOMContentLoaded', () => {
   const music = document.getElementById('bgMusic');
@@ -63,13 +63,11 @@ window.addEventListener('DOMContentLoaded', () => {
   const targetVol = 0.6;
   let hasStarted = false;
 
-  // Hàm phát nhạc + fade-in
   const startMusic = () => {
     if (hasStarted) return;
     hasStarted = true;
 
     music.play().then(() => {
-      // Fade-in volume
       let v = 0;
       const fade = setInterval(() => {
         v += 0.05;
@@ -80,19 +78,13 @@ window.addEventListener('DOMContentLoaded', () => {
         music.volume = v;
       }, 200);
     }).catch(() => {
-      // Trường hợp trình duyệt vẫn chặn, đợi thêm
       document.addEventListener('click', startMusic, { once: true });
       document.addEventListener('scroll', startMusic, { once: true });
     });
   };
 
-  // Chờ 1 giây rồi thử phát nhạc (nếu không bị block)
   setTimeout(() => {
-    music.play().then(() => {
-      hasStarted = true;
-      startMusic();
-    }).catch(() => {
-      // Nếu bị block thì chỉ phát sau khi user click hoặc scroll
+    music.play().then(() => startMusic()).catch(() => {
       document.addEventListener('click', startMusic, { once: true });
       document.addEventListener('scroll', startMusic, { once: true });
     });
@@ -115,7 +107,6 @@ function openPasswordModal() {
   gsap.fromTo(modalContent, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)' });
   el.passwordInput.value = '';
   el.passwordInput.focus();
-  clearTimeout(window._closeModalTimeout);
 }
 
 function closePasswordModal() {
@@ -133,7 +124,8 @@ function openLetterModal() {
   audio.play();
 
   const paper = el.letterModal.querySelector('.letter-paper');
-  gsap.fromTo(paper, { rotateX: -60, opacity: 0, scale: 0.9 }, { rotateX: 0, opacity: 1, scale: 1, duration: 1, ease: 'power3.out' });
+  gsap.fromTo(paper, { rotateX: -60, opacity: 0, scale: 0.9 },
+    { rotateX: 0, opacity: 1, scale: 1, duration: 1, ease: 'power3.out' });
 
   const text = el.letterModal.querySelectorAll('.letter-body p, .letter-greeting, .letter-signature');
   gsap.from(text, { opacity: 0, y: 20, stagger: 0.1, duration: 0.6, delay: 0.5 });
@@ -166,7 +158,7 @@ function checkPassword() {
     return;
   }
 
-  if (input === CONFIG.PASSWORD) {
+  if (input.toLowerCase() === CONFIG.PASSWORD.toLowerCase()) {
     showSuccess('✓ Chính xác! Đang mở thư... 💌');
     setTimeout(() => {
       closePasswordModal();
@@ -215,7 +207,7 @@ function showNotification(msg, type = 'info') {
 }
 
 // ===========================
-// KEYBOARD SHORTCUTS
+// SHORTCUTS
 // ===========================
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
@@ -229,18 +221,15 @@ document.addEventListener('keydown', e => {
 });
 
 // ===========================
-// Sub-Greeting Text Switcher (3s)
+// Sub-Greeting Text Switcher
 // ===========================
 window.addEventListener('load', () => {
   const subGreeting = document.getElementById('subGreeting');
   if (!subGreeting) return;
-
   let showingOriginal = true;
-
   const switchText = () => {
     subGreeting.style.transition = 'opacity 0.8s ease';
     subGreeting.style.opacity = '0';
-
     setTimeout(() => {
       if (showingOriginal) {
         subGreeting.innerHTML = 'Hương Quỳnh <span class="heart">💖</span>';
@@ -261,4 +250,4 @@ window.addEventListener('load', () => {
 });
 
 console.log('%c🌸 Welcome to Vườn Hoa 20/10 🌸', 'color:#e91e63;font-size:18px;font-weight:bold;');
-console.log('%cHint: Mật khẩu là 2010love ❤️', 'color:#8e24aa;');
+console.log('%cHint: Mật khẩu là ilovehquynhh ❤️', 'color:#8e24aa;');
