@@ -1008,12 +1008,27 @@ body {
     }
     
     .letter-modal {
-        max-width: 50%;
-        max-height: 50%;
-        scale: 70%;
+        max-width: 70%;
     }
 }
+@media (max-width: 768px) {
+  .letter-modal {
+    max-width: 95%;            
+    padding: 0;                
+  }
 
+  .letter-paper {
+    max-width: 95%;
+    padding: 22px 18px;
+    border-radius: 14px;
+    font-size: 0.95rem;       /* nhỏ chữ vừa phải */
+    line-height: 1.55;        
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.15),
+        inset 0 0 50px rgba(255, 248, 235, 0.35);
+    min-height: auto;
+  }
+}
 /* ===========================
    Accessibility
    ===================a======== */
