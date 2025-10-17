@@ -53,20 +53,28 @@ async function toggleMusic() {
 }
 
 // Auto-play ngay khi load
-window.addEventListener('load', async () => {
-  if (!hasTriedAutoPlay) {
-    hasTriedAutoPlay = true;
-    try {
-      await bgMusic.play();
-      el.musicToggle.classList.add('playing');
-      el.musicToggle.querySelector('.music-text').textContent = 'Pause';
-      isPlaying = true;
-      console.log('🎶 Auto-play thành công!');
-    } catch {
-      console.warn('⚠️ Auto-play bị chặn, cần tương tác người dùng.');
-      showNotification('Nhấn màn hình để bật nhạc 💖', 'error');
-    }
-  }
+// ===========================
+// SAFE AUTO-PLAY MUSIC ON LOAD
+// ===========================
+window.addEventListener('DOMContentLoaded', () => {
+  const music = document.getElementById('bgMusic');
+  if (!music) return;
+
+  music.volume = 0.6;
+
+  // Cố gắng phát nhẹ sau 1 giây (nếu trình duyệt cho phép)
+  setTimeout(() => {
+    music.play().catch(() => {
+      // Nếu bị chặn, sẽ đợi người dùng click
+      const tryPlay = () => {
+        music.play().catch(() => {});
+        document.removeEventListener('click', tryPlay);
+        document.removeEventListener('scroll', tryPlay);
+      };
+      document.addEventListener('click', tryPlay);
+      document.addEventListener('scroll', tryPlay);
+    });
+  }, 1000);
 });
 let vol = 0;
 music.volume = 0;
