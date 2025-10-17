@@ -833,21 +833,6 @@ body {
   }
 }
 
-@media (max-width: 480px) {
-  .letter-modal {
-    max-width: 100%;
-    padding: 0;
-  }
-
-  .letter-paper {
-    padding: 18px 16px;
-    border-radius: 12px;
-    font-size: 0.9rem;
-    line-height: 1.55;
-    min-height: 65vh;
-  }
-}
-
 
 @keyframes paperUnfold {
     from {
