@@ -1009,6 +1009,7 @@ body {
     
     .letter-modal {
         max-width: 70%;
+        scale: 70%;
     }
 }
 
