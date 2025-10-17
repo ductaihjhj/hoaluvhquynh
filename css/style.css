@@ -818,18 +818,20 @@ body {
 /* Mobile tối ưu */
 @media (max-width: 768px) {
   .letter-modal {
-    max-width: 95%;
+    max-width: 98%;            /* 👈 rộng gần full, nhìn đã mắt hơn */
     height: auto;
-    padding: 0;
+    padding: 5px;
+    scale: 80%;                /* 👈 to hơn chút mà vẫn gọn */
+    transform-origin: center center;
   }
 
   .letter-paper {
-    max-width: 100%;
-    padding: 25px 20px;
-    border-radius: 14px;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    min-height: 60vh;
+    max-width: 98%;
+    padding: 32px 26px;        /* 👈 tăng padding cho thoáng nội dung */
+    border-radius: 16px;
+    font-size: 1.05rem;        /* 👈 chữ to hơn một tí, dễ đọc hơn */
+    line-height: 1.65;
+    min-height: 62vh;          /* 👈 vẫn giữ độ cao vừa phải */
   }
 }
 
