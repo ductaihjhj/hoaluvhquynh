@@ -52,37 +52,45 @@ async function toggleMusic() {
   isPlaying = !isPlaying;
 }
 
-// Auto-play ngay khi load
 // ===========================
-// SAFE AUTO-PLAY MUSIC ON LOAD
+// SAFE AUTO-PLAY MUSIC ON LOAD (with smooth fade-in)
 // ===========================
 window.addEventListener('DOMContentLoaded', () => {
   const music = document.getElementById('bgMusic');
   if (!music) return;
 
-  music.volume = 0.6;
+  // Đặt volume ban đầu = 0 để fade-in nhẹ
+  music.volume = 0;
+  const targetVol = 0.6;
 
-  // Cố gắng phát nhẹ sau 1 giây (nếu trình duyệt cho phép)
+  // Thử phát sau 1 giây (nếu trình duyệt cho phép)
   setTimeout(() => {
-    music.play().catch(() => {
-      // Nếu bị chặn, sẽ đợi người dùng click
-      const tryPlay = () => {
-        music.play().catch(() => {});
-        document.removeEventListener('click', tryPlay);
-        document.removeEventListener('scroll', tryPlay);
-      };
-      document.addEventListener('click', tryPlay);
-      document.addEventListener('scroll', tryPlay);
-    });
+    const startPlay = () => {
+      music.play().then(() => {
+        // Fade-in dần âm lượng
+        let v = 0;
+        const fade = setInterval(() => {
+          v += 0.05;
+          if (v >= targetVol) {
+            v = targetVol;
+            clearInterval(fade);
+          }
+          music.volume = v;
+        }, 200);
+      }).catch(() => {
+        // Nếu bị chặn, đợi user click/scroll rồi phát
+        const tryPlay = () => {
+          music.play().catch(() => {});
+          document.removeEventListener('click', tryPlay);
+          document.removeEventListener('scroll', tryPlay);
+        };
+        document.addEventListener('click', tryPlay);
+        document.addEventListener('scroll', tryPlay);
+      });
+    };
+    startPlay();
   }, 1000);
 });
-let vol = 0;
-music.volume = 0;
-const fade = setInterval(() => {
-  vol += 0.05;
-  if (vol >= 0.6) { clearInterval(fade); }
-  music.volume = vol;
-}, 200);
 
 // ===========================
 // MODALS
