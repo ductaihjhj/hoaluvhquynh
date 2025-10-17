@@ -772,6 +772,7 @@ body {
 /* Letter Modal */
 .letter-modal {
     max-width: 700px;
+    scale: 68%;
     padding: 20px;
     background: transparent;
     box-shadow: none;
@@ -780,31 +781,14 @@ body {
 .letter-paper {
     background: linear-gradient(135deg, #fdfcfb 0%, #f7f3ed 100%);
     border-radius: 20px;
-    padding: 40px 50px;
-    width: 90%;               /* rộng hơn để gần full màn hình */
-    max-width: 1100px;        /* tối đa chiều ngang */
-    margin: 30px auto;        /* giảm khoảng trống trên/dưới */
+
+    padding: 50px 40px;
     position: relative;
-    box-shadow:
-        0 15px 50px rgba(0, 0, 0, 0.18),
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.2),
         inset 0 0 100px rgba(255, 248, 235, 0.5);
     animation: paperUnfold 0.8s ease;
-    backdrop-filter: blur(6px);
-    transition: all 0.4s ease;
-    min-height: 70vh;         /* ngắn lại bớt chiều cao nhìn cho gọn */
 }
-
-/* Giao diện mobile */
-@media (max-width: 768px) {
-  .letter-paper {
-    width: 92%;
-    padding: 25px 20px;
-    max-width: 95%;
-    min-height: auto;
-  }
-}
-
-
 
 @keyframes paperUnfold {
     from {
@@ -1024,7 +1008,7 @@ body {
     }
     
     .letter-modal {
-        max-width: 100%;
+        max-width: 70%;
     }
 }
 
