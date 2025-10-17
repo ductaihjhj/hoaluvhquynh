@@ -53,42 +53,49 @@ async function toggleMusic() {
 }
 
 // ===========================
-// SAFE AUTO-PLAY MUSIC ON LOAD (with smooth fade-in)
+// SAFE AUTO-PLAY MUSIC (no modal interference)
 // ===========================
 window.addEventListener('DOMContentLoaded', () => {
   const music = document.getElementById('bgMusic');
   if (!music) return;
 
-  // Đặt volume ban đầu = 0 để fade-in nhẹ
   music.volume = 0;
   const targetVol = 0.6;
+  let hasStarted = false;
 
-  // Thử phát sau 1 giây (nếu trình duyệt cho phép)
+  // Hàm phát nhạc + fade-in
+  const startMusic = () => {
+    if (hasStarted) return;
+    hasStarted = true;
+
+    music.play().then(() => {
+      // Fade-in volume
+      let v = 0;
+      const fade = setInterval(() => {
+        v += 0.05;
+        if (v >= targetVol) {
+          v = targetVol;
+          clearInterval(fade);
+        }
+        music.volume = v;
+      }, 200);
+    }).catch(() => {
+      // Trường hợp trình duyệt vẫn chặn, đợi thêm
+      document.addEventListener('click', startMusic, { once: true });
+      document.addEventListener('scroll', startMusic, { once: true });
+    });
+  };
+
+  // Chờ 1 giây rồi thử phát nhạc (nếu không bị block)
   setTimeout(() => {
-    const startPlay = () => {
-      music.play().then(() => {
-        // Fade-in dần âm lượng
-        let v = 0;
-        const fade = setInterval(() => {
-          v += 0.05;
-          if (v >= targetVol) {
-            v = targetVol;
-            clearInterval(fade);
-          }
-          music.volume = v;
-        }, 200);
-      }).catch(() => {
-        // Nếu bị chặn, đợi user click/scroll rồi phát
-        const tryPlay = () => {
-          music.play().catch(() => {});
-          document.removeEventListener('click', tryPlay);
-          document.removeEventListener('scroll', tryPlay);
-        };
-        document.addEventListener('click', tryPlay);
-        document.addEventListener('scroll', tryPlay);
-      });
-    };
-    startPlay();
+    music.play().then(() => {
+      hasStarted = true;
+      startMusic();
+    }).catch(() => {
+      // Nếu bị block thì chỉ phát sau khi user click hoặc scroll
+      document.addEventListener('click', startMusic, { once: true });
+      document.addEventListener('scroll', startMusic, { once: true });
+    });
   }, 1000);
 });
 
