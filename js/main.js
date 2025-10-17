@@ -3,7 +3,7 @@
 // ===========================
 
 const CONFIG = {
-  PASSWORD: 'ilovehquynhh',
+  PASSWORD: 'ilovehquynh',
   MUSIC_URL: 'https://cdn.pixabay.com/audio/2025/10/16/audio_c04cdbb1f6.mp3'
 };
 
