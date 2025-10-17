@@ -780,13 +780,28 @@ body {
 .letter-paper {
     background: linear-gradient(135deg, #fdfcfb 0%, #f7f3ed 100%);
     border-radius: 20px;
-    padding: 50px 40px;
+    padding: 35px 30px;
+    width: 70%;
+    max-width: 700px;
+    margin: 40px auto;
     position: relative;
     box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.2),
+        0 12px 40px rgba(0, 0, 0, 0.15),
         inset 0 0 100px rgba(255, 248, 235, 0.5);
     animation: paperUnfold 0.8s ease;
+    backdrop-filter: blur(6px);
+    transition: all 0.4s ease;
 }
+
+/* Giao diện mobile đẹp */
+@media (max-width: 768px) {
+  .letter-paper {
+    width: 90%;
+    padding: 25px 20px;
+    max-width: 95%;
+  }
+}
+
 
 @keyframes paperUnfold {
     from {
