@@ -780,27 +780,30 @@ body {
 .letter-paper {
     background: linear-gradient(135deg, #fdfcfb 0%, #f7f3ed 100%);
     border-radius: 20px;
-    padding: 35px 30px;
-    width: 70%;
-    max-width: 700px;
-    margin: 40px auto;
+    padding: 40px 50px;
+    width: 90%;               /* rộng hơn để gần full màn hình */
+    max-width: 1100px;        /* tối đa chiều ngang */
+    margin: 30px auto;        /* giảm khoảng trống trên/dưới */
     position: relative;
-    box-shadow: 
-        0 12px 40px rgba(0, 0, 0, 0.15),
+    box-shadow:
+        0 15px 50px rgba(0, 0, 0, 0.18),
         inset 0 0 100px rgba(255, 248, 235, 0.5);
     animation: paperUnfold 0.8s ease;
     backdrop-filter: blur(6px);
     transition: all 0.4s ease;
+    min-height: 70vh;         /* ngắn lại bớt chiều cao nhìn cho gọn */
 }
 
-/* Giao diện mobile đẹp */
+/* Giao diện mobile */
 @media (max-width: 768px) {
   .letter-paper {
-    width: 90%;
+    width: 92%;
     padding: 25px 20px;
     max-width: 95%;
+    min-height: auto;
   }
 }
+
 
 
 @keyframes paperUnfold {
